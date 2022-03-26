@@ -10,8 +10,41 @@ public class Cart {
 
     private List<Item> items = new ArrayList<>();
 
+    private double sum=0;
+
     public boolean addItem(Item item) {
-        return items.add(item);
+        boolean res= items.add(item);
+        countSum();
+        return res;
+    }
+
+    public boolean deleteItem(int index){
+        if(index+1>items.size())return false;
+        items.remove(index);
+        countSum();
+        return true;
+    }
+
+    public boolean minus(int index){
+        if(index+1>items.size())return false;
+        if(items.get(index).getQuantity()==1)items.remove(index);
+        else items.get(index).setQuantity(items.get(index).getQuantity()-1);
+        countSum();
+        return true;
+    } 
+
+    public boolean plus(int index){
+        if(index+1>items.size())return false;
+        items.get(index).setQuantity(items.get(index).getQuantity()+1);
+        countSum();
+        return true;
+    } 
+
+    public void countSum(){
+        sum=0;
+        for(Item item :items){
+            sum+=item.getQuantity()*item.getProduct().getPrice();
+        }
     }
 
     @Override
